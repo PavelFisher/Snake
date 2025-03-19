@@ -107,7 +107,7 @@ public class GameField extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         try {
-            image = ImageIO.read(new File("C:\\Users\\also1\\IdeaProjects\\SnakeFX\\target\\classes\\com\\example\\snakefx\\green_grass.jpg"));
+            image = ImageIO.read(new File("src/green_grass.jpg"));
 
         } catch (IOException e) {
             e.printStackTrace();
