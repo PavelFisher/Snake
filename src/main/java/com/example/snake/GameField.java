@@ -97,9 +97,9 @@ public class GameField extends JPanel implements ActionListener {
     }
 
     public void loadImages() {
-        ImageIcon iia = new ImageIcon("src/apple.png");
+        ImageIcon iia = new ImageIcon("src/assets/apple.png");
         apple = iia.getImage();
-        ImageIcon iid = new ImageIcon("src/dot.png");
+        ImageIcon iid = new ImageIcon("src/assets/dot.png");
         dot = iid.getImage();
     }
 
@@ -107,7 +107,7 @@ public class GameField extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         try {
-            image = ImageIO.read(new File("src/green_grass.jpg"));
+            image = ImageIO.read(new File("src/assets/green_grass.jpg"));
 
         } catch (IOException e) {
             e.printStackTrace();

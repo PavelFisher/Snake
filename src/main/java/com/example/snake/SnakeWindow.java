@@ -29,7 +29,7 @@ public class SnakeWindow extends JFrame {
         setVisible(true);
 
         try {
-            setIconImage(ImageIO.read(new File("src/icon.jpeg")));
+            setIconImage(ImageIO.read(new File("src/assets/icon.jpeg")));
         } catch (
                 IOException e) {
             e.printStackTrace();
@@ -45,6 +45,6 @@ public class SnakeWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-        SnakeWindow snake = new SnakeWindow();
+        new SnakeWindow();
     }
 }
