@@ -29,7 +29,7 @@ public class SnakeWindow extends JFrame {
         setVisible(true);
 
         try {
-            setIconImage(ImageIO.read(new File("C:\\Users\\also1\\IdeaProjects\\SnakeFX\\target\\classes\\com\\example\\snakefx\\icon.jpeg")));
+            setIconImage(ImageIO.read(new File("src/icon.jpeg")));
         } catch (
                 IOException e) {
             e.printStackTrace();
