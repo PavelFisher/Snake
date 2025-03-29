@@ -3,7 +3,6 @@ package com.example.snake;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
