@@ -3,26 +3,36 @@ package com.example.snake;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
+import java.awt.event.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Scene;
-//import javafx.stage.Stage;
+import java.io.ObjectInputStream;
 
 
 public class SnakeWindow extends JFrame {
-    private final GameField game;
-    private Image img;
+    private GameField game;
+    private SnakeWindow snake;
 
-    public SnakeWindow() {
+    public SnakeWindow(GameField game) {
+        snake = this;
         setTitle("Змейка");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(360, 378);
-        game = new GameField();
-        add(game);
+
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createFileMenu());
+        menuBar.setBackground(Color.GRAY);
+        setJMenuBar(menuBar);
+
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        if (game == null) {
+            this.game = new GameField();
+            add(this.game);
+        } else {
+            add(game);
+            this.game = game;
+            this.game.loadGame();
+        }
+        setSize(this.game.getCurrentWidth(), this.game.getCurrentHeight());
         getRootPane().setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5)); // Отступы от границ
         getRootPane().setBackground(Color.black);
         setLocationRelativeTo(null); // Центрирование на экране
@@ -37,14 +47,58 @@ public class SnakeWindow extends JFrame {
         getContentPane().addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 Dimension dimension = getSize();
-                game.onChangeSize(dimension);
+                snake.game.onChangeSize(dimension);
                 setSize(dimension.width, dimension.height);
+
+            }
+        });
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                snake.game.setPause();
+                Popup popup = new Popup();
+                popup.saveGame(snake.game);
+//                dispose();
+//                System.exit(0);
 
             }
         });
     }
 
     public static void main(String[] args) {
-        new SnakeWindow();
+        new SnakeWindow(null);
+    }
+
+    private JMenu createFileMenu() {
+        // Создание выпадающего меню
+        JMenu file = new JMenu("Action");
+        JMenuItem newGame = new JMenuItem("New game", new ImageIcon("src/assets/new.png"));
+        JMenuItem loadGame = new JMenuItem("Load game", new ImageIcon("src/assets/load.png"));
+        newGame.setBackground(Color.GRAY);
+        loadGame.setBackground(Color.GRAY);
+        file.add(newGame);
+        file.add(loadGame);
+
+        newGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                game.initGame();
+            }
+        });
+        loadGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+//                GameField game1 = Popup.loadGame();
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/saves/saves.dat"))) {
+                    game.stop();
+                    snake.dispose();
+                    new SnakeWindow((GameField) ois.readObject());
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        });
+        return file;
     }
 }
