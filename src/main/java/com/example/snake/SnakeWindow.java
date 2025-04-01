@@ -56,7 +56,7 @@ public class SnakeWindow extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                snake.game.setPause();
+                snake.game.setPause(true);
                 Popup popup = new Popup();
                 popup.saveGame(snake.game);
 //                dispose();
