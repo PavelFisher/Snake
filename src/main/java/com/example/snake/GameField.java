@@ -51,8 +51,8 @@ public class GameField extends JPanel implements ActionListener, Serializable {
         timer.stop();
     }
 
-    public void setPause() {
-        this.pause = true;
+    public void setPause(boolean value) {
+        this.pause = value;
     }
 
     public int getCurrentHeight() {
@@ -296,7 +296,9 @@ public class GameField extends JPanel implements ActionListener, Serializable {
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int key = e.getKeyCode();
-            if (key == KeyEvent.VK_P) pause = !pause;
+            if (key == KeyEvent.VK_P) {
+                setPause(!pause);
+            }
             if (key == KeyEvent.VK_LEFT && !right) {
                 if (up) {
                     images.set(0, rotateImage(images.getFirst(), -90));
